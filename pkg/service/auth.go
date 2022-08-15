@@ -2,7 +2,6 @@ package service
 
 import (
 	"context"
-	"errors"
 
 	"github.com/Shulammite-Aso/filebox-auth-service/pkg/db"
 	"github.com/Shulammite-Aso/filebox-auth-service/pkg/models"
@@ -22,7 +21,8 @@ func (s *Server) Register(ctx context.Context, req *proto.RegisterRequest) (*pro
 	if result := s.H.DB.Where(&models.User{Username: req.Username}).First(&user); result.Error == nil {
 		return &proto.RegisterResponse{
 			Message: "",
-		}, errors.New("username not available. Please choose a differnt username")
+			Error:   "username not available. Please choose a differnt username",
+		}, nil
 	}
 
 	user.Email = req.Email
@@ -33,6 +33,7 @@ func (s *Server) Register(ctx context.Context, req *proto.RegisterRequest) (*pro
 
 	return &proto.RegisterResponse{
 		Message: "User created",
+		Error:   "",
 	}, nil
 }
 
@@ -42,7 +43,8 @@ func (s *Server) Login(ctx context.Context, req *proto.LoginRequest) (*proto.Log
 	if result := s.H.DB.Where(&models.User{Email: req.Username}).First(&user); result.Error != nil {
 		return &proto.LoginResponse{
 			Token: "",
-		}, errors.New("could not find user")
+			Error: "could not find user",
+		}, nil
 	}
 
 	match := utils.CheckPasswordHash(req.Password, user.Password)
@@ -50,13 +52,15 @@ func (s *Server) Login(ctx context.Context, req *proto.LoginRequest) (*proto.Log
 	if !match {
 		return &proto.LoginResponse{
 			Token: "",
-		}, errors.New("incorrect password")
+			Error: "incorrect password",
+		}, nil
 	}
 
 	token, _ := s.Jwt.GenerateToken(user)
 
 	return &proto.LoginResponse{
 		Token: token,
+		Error: "",
 	}, nil
 }
 
@@ -66,7 +70,8 @@ func (s *Server) Validate(ctx context.Context, req *proto.ValidateRequest) (*pro
 	if err != nil {
 		return &proto.ValidateResponse{
 			Username: "",
-		}, err
+			Error:    err.Error(),
+		}, nil
 	}
 
 	var user models.User
@@ -74,7 +79,8 @@ func (s *Server) Validate(ctx context.Context, req *proto.ValidateRequest) (*pro
 	if result := s.H.DB.Where(&models.User{Username: claims.Username}).First(&user); result.Error != nil {
 		return &proto.ValidateResponse{
 			Username: "",
-		}, errors.New("user not found")
+			Error:    "user not found",
+		}, nil
 	}
 
 	return &proto.ValidateResponse{

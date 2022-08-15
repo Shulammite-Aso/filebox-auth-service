@@ -31,10 +31,10 @@ func main() {
 	lis, err := net.Listen("tcp", c.Port)
 
 	if err != nil {
-		log.Fatalln("Failed to listing:", err)
+		log.Fatalln("Failed to listen:", err)
 	}
 
-	fmt.Println("Auth Svc on", c.Port)
+	fmt.Println("Auth service listening on", c.Port)
 
 	s := service.Server{
 		H:   h,

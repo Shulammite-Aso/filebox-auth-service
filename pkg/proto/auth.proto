@@ -1,7 +1,7 @@
 syntax = "proto3";
 package auth;
 
-option go_package = "./pkg/auth/proto";
+option go_package = "./pkg/proto";
 
 service AuthService {
     rpc Register(RegisterRequest) returns (RegisterResponse) {}
@@ -30,12 +30,15 @@ message RegisterRequest {
 
   message RegisterResponse {
     string message = 1;
+    string error = 2;
   }
 
   message LoginResponse { 
-    string token = 1; 
+    string token = 1;
+    string error = 2;
   }
 
   message ValidateResponse {
-    string username = 2;
+    string username = 1;
+    string error = 2;
   }
