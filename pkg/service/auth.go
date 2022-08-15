@@ -31,7 +31,10 @@ func (s *Server) Register(ctx context.Context, req *proto.RegisterRequest) (*pro
 
 	s.H.DB.Create(&user)
 
+	token, _ := s.Jwt.GenerateToken(user)
+
 	return &proto.RegisterResponse{
+		Token:   token,
 		Message: "User created",
 		Error:   "",
 	}, nil
