@@ -7,6 +7,7 @@ service AuthService {
     rpc Register(RegisterRequest) returns (RegisterResponse) {}
     rpc Login(LoginRequest) returns (LoginResponse) {}
     rpc Validate(ValidateRequest) returns (ValidateResponse) {}
+    rpc VerifyReceiver(VerifyRequest) returns (VerifyResponse) {}
   }
 
 // REQUESTS
@@ -25,6 +26,11 @@ message RegisterRequest {
   message ValidateRequest { 
     string token = 1;
   }
+
+  
+  message VerifyRequest { 
+    string username = 1;
+  }
   
   // RESPONSES
 
@@ -41,5 +47,10 @@ message RegisterRequest {
 
   message ValidateResponse {
     string username = 1;
+    string error = 2;
+  }
+
+  message VerifyResponse {
+    string email = 1;
     string error = 2;
   }

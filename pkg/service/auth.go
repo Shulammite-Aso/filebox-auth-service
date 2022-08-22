@@ -43,7 +43,7 @@ func (s *Server) Register(ctx context.Context, req *proto.RegisterRequest) (*pro
 func (s *Server) Login(ctx context.Context, req *proto.LoginRequest) (*proto.LoginResponse, error) {
 	var user models.User
 
-	if result := s.H.DB.Where(&models.User{Email: req.Username}).First(&user); result.Error != nil {
+	if result := s.H.DB.Where(&models.User{Username: req.Username}).First(&user); result.Error != nil {
 		return &proto.LoginResponse{
 			Token: "",
 			Error: "could not find user",
@@ -88,5 +88,23 @@ func (s *Server) Validate(ctx context.Context, req *proto.ValidateRequest) (*pro
 
 	return &proto.ValidateResponse{
 		Username: user.Username,
+	}, nil
+}
+
+func (s *Server) VerifyReceiver(ctx context.Context, req *proto.VerifyRequest) (*proto.VerifyResponse, error) {
+	var user models.User
+
+	result := s.H.DB.Where(&models.User{Username: req.Username}).First(&user)
+
+	if result.Error != nil {
+		return &proto.VerifyResponse{
+			Email: "",
+			Error: "could not find user " + req.Username,
+		}, nil
+	}
+
+	return &proto.VerifyResponse{
+		Email: user.Email,
+		Error: "",
 	}, nil
 }
