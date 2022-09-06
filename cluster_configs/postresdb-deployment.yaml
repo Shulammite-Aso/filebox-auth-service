@@ -1,0 +1,38 @@
+apiVersion: apps/v1
+ kind: Deployment
+ metadata:
+   name: myPostgresDb
+ spec:
+   selector:
+     matchLabels:
+       app: myPostgresDb
+   replicas: 1
+   template:
+     metadata:
+       labels:
+         app: myPostgresDb
+     spec:
+       containers:
+         - name: myPostgresDb
+           image: postgres
+           ports:
+             - containerPort: 5432
+               name: "postgresDb-port"
+           volumeMounts:
+             - mountPath: "/var/lib/postgresql/data"
+               name: auth-service-postgres-data-storage
+           env:
+             - name: POSTGRES_DB
+               value: auth_svc
+             - name: POSTGRES_USER
+               value: postgresUser
+             - name: POSTGRES_PASSWORD
+               value: postgresPW
+           resources:
+             limits:
+               memory: 4Gi
+               cpu: "2"
+       volumes:
+         - name: auth-service-postgres-data-storage
+           persistentVolumeClaim:
+             claimName: auth-service-postgres-data-persisent-volume-claim

@@ -1,0 +1,20 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: filebox-auth-service
+spec:
+  selector:
+    matchLabels:
+      app: filebox-auth-service
+  replicas: 1
+  template:
+    metadata:
+      labels:
+        app: filebox-auth-service
+    spec:
+      containers:
+        - name: filebox-auth-service
+          image: shulaa/filebox-auth-service:v1
+          ports:
+            - containerPort: 50051
+              name: fb-auth-service-port
