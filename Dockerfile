@@ -8,14 +8,6 @@ COPY . ./
 
 RUN go mod download
 
-RUN go build -o /fb-auth-service
-
-FROM scratch
-
-WORKDIR /
-
-COPY --from=build /fb-auth-service /fb-auth-service
-
 EXPOSE 50051
 
-CMD [ "/fb-auth-service" ]
+ENTRYPOINT go run cmd/main.go
