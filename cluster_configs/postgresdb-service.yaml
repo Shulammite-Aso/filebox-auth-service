@@ -1,10 +1,10 @@
 apiVersion: v1 
 kind: Service 
 metadata: 
-  name: myPostgresDb-service 
+  name: auth-postgres-db-service
 spec: 
   ports: 
     - port: 5432
-      targetPort: postgresDb-port
+      targetPort: db-port
   selector:
-    app: myPostgresDb
+    app: auth-postgres-db

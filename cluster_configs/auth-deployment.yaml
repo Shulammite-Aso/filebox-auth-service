@@ -17,4 +17,4 @@ spec:
           image: shulaa/filebox-auth-service:v1
           ports:
             - containerPort: 50051
-              name: fb-auth-service-port
+              name: auth-svc-port

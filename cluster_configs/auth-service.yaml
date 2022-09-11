@@ -1,10 +1,10 @@
 apiVersion: v1 
 kind: Service 
 metadata: 
-  name: filebox-auth-service-service 
+  name: filebox-auth-service-service
 spec: 
   ports: 
     - port: 50051
-      targetPort: fb-auth-service-port
+      targetPort: auth-svc-port
   selector:
     app: filebox-auth-service
