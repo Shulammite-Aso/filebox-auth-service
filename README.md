@@ -65,3 +65,11 @@ the ones that came from the CLI tool
 - MongoDB
 - Docker
 - Kubernetes
+
+# Try It?
+
+<a href="https://gitpod.io/#https://github.com/Shulammite-Aso/filebox"><img src="https://gitpod.io/button/open-in-gitpod.svg"/></a>
+
+Sample files to start with can be found in the `sample_files` folder.
+
+The services are running on gcp, if I'm not out of credit and everything works fine on my cluster, then the application would work just fine.
